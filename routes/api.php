@@ -38,7 +38,8 @@ Route::group(['prefix' => '/v1'], function () {
     Route::group(['prefix' => '/oauth'], function () {
         Route::post('login', [AuthController::class, 'login']);
         Route::post('change-password', [AuthController::class, 'changePassword'])->middleware(['auth:api', 'check.subscription']);
-        Route::post('password-recovery', 'AuthController@passwordRecovery')->name('password.reset');
+        Route::post('password-recovery', [AuthController::class, 'passwordRecovery'])->name('password.reset');
+        Route::post('password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
         Route::get('me', [AuthController::class, 'getAuthenticated'])->middleware(['auth:api', 'check.subscription']);
         Route::post('logout', [AuthController::class, 'logout'])->middleware(['auth:api']);
     });

@@ -7,8 +7,13 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Traits\ValidationTrait;
 
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+
 // Models
 use App\Models\Users\User;
+
 
 class AuthService implements AuthServiceInterface
 {
@@ -107,5 +112,45 @@ class AuthService implements AuthServiceInterface
         $user->save();
 
         return response()->json('Senha Atualizada', 201);
+    }
+
+    public function passwordRecovery(Request $request)
+    {
+        $request->validate(['email' => 'required|email|exists:users,email']);
+
+        $status = Password::sendResetLink($request->only('email'));
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => __($status)], 200);
+        }
+
+        return $status === Password::RESET_LINK_SENT
+            ? ['message' => __($status)]
+            : ['message' => __($status), 'error' => true, 'code' => 400];
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? ['message' => __($status)]
+            : ['message' => __($status), 'error' => true, 'code' => 400];
     }
 }

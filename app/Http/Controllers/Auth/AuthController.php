@@ -53,4 +53,23 @@ class AuthController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function passwordRecovery(Request $request) {
+        try {
+            $response = $this->authService->passwordRecovery($request);
+            return $this->handleResponse($response);
+        } catch (Throwable $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        try {
+            $response = $this->authService->resetPassword($request);
+            return $this->handleResponse($response);
+        } catch (Throwable $e) {
+            return $this->handleException($e);
+        }
+    }
 }

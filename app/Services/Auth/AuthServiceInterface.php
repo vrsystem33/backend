@@ -15,4 +15,8 @@ interface AuthServiceInterface
 
     public function logout(Request $request);
 
+    public function passwordRecovery(Request $request);
+
+    public function resetPassword(Request $request);
+
 }
