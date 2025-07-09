@@ -20,7 +20,7 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
      */
     protected $model = Customer::class;
 
-    public function getAll(array $params)
+    public function index(array $params)
     {
         $role = $params['role'] ?? null;
 
@@ -30,17 +30,17 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
             'customers.uuid',
             'customers.company_id',
             'customers.status',
-            'person_info.name as person_name',
-            'person_info.email as person_email',
-            'person_info.phone as person_phone',
-            'addresses.address as street',
-            'addresses.city',
-            'addresses.state',
+            'customer_personnel_information.name as person_name',
+            'customer_personnel_information.email as person_email',
+            'customer_personnel_information.phone as person_phone',
+            'customer_addresses.address as street',
+            'customer_addresses.city',
+            'customer_addresses.state',
             'customer_categories.name as category_name'
-        ])->join('person_info', 'customers.personInfo_id', '=', 'person_info.uuid')
-            ->join('addresses', 'customers.address_id', '=', 'addresses.uuid')
-            ->join('customer_categories', 'customers.category_id', '=', 'customer_categories.id')
-            ->orderBy('person_info.name', 'asc');
+        ])->leftJoin('customer_personnel_information', 'customers.personal_info_id', '=', 'customer_personnel_information.uuid')
+          ->leftJoin('customer_addresses', 'customers.address_id', '=', 'customer_addresses.uuid')
+          ->leftJoin('customer_categories', 'customers.category_id', '=', 'customer_categories.id')
+          ->orderBy('customer_personnel_information.name', 'asc');
 
         // Restrições de acordo com o papel do usuário
         if ($role !== 'super' && isset($params['company_id'])) {
@@ -51,7 +51,7 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
         if (isset($params['term']) && !empty($params['term'])) {
             $term = $params['term'];
             $query->where(function ($q) use ($term) {
-                $q->whereHas('personInfo', function ($q2) use ($term) {
+                $q->whereHas('personalInfo', function ($q2) use ($term) {
                     $q2->where('name', 'like', '%' . $term . '%');
                 })->orWhere('address', 'like', '%' . $term . '%')
                     ->orWhere('email', 'like', '%' . $term . '%')
@@ -92,10 +92,10 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
 
     public function create(array $data)
     {
-        return $this->createInfo($data, 'customer');
+        return $this->createInfo($data, \App\Models\Customers\PersonalInformation::class, \App\Models\Customers\Address::class);
     }
 
-    public function update(array $data, $uuid)
+    public function updateCustomer(array $data, $uuid)
     {
         $customer = $this->model->findOrFail($uuid);
 

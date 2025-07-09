@@ -23,10 +23,13 @@ class CustomerService extends Service
     {
         try {
             $filters = $request->all();
-            $filters['company_id'] = $request->user()->company_id ?? null;
             $filters['role'] = $request->user()->role->name ?? null;
 
-            return $this->customerRepository->getAll($filters);
+            if ($filters['role'] !== 'super') {
+                $filters['company_id'] = $request->user()->company_id ?? null;
+            }
+
+            return $this->customerRepository->index($filters);
         } catch (Throwable $e) {
             return $e;
         }
@@ -57,7 +60,7 @@ class CustomerService extends Service
     public function update(CustomerDTO $customerDTO, string $uuid)
     {
         try {
-            return $this->customerRepository->update($customerDTO->toArray(), $uuid);
+            return $this->customerRepository->updateCustomer($customerDTO->toArray(), $uuid);
         } catch (Throwable $e) {
             return $e;
         }

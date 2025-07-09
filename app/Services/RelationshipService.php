@@ -27,33 +27,33 @@ class RelationshipService
     /**
      * Verifica se a assinatura da empresa está ativa.
      */
-    public function createPersoninfoAndAddress(array $data)
+    public function createPersoninfoAndAddress(array $data, string $personModelClass, string $addressModelClass)
     {
 
         unset($data['uuid']);
 
         $dataPersonAddress = Array();
 
-        $dataPersonAddress['personal_info_id'] = $this->createPersonInfo($data)->uuid;
+        $dataPersonAddress['personal_info_id'] = $this->createPersonInfo($personModelClass, $data)->uuid;
 
-        $dataPersonAddress['address_id'] = $this->createAddress($data)->uuid;
+        $dataPersonAddress['address_id'] = $this->createAddress($addressModelClass, $data)->uuid;
 
         return $dataPersonAddress;
     }
 
     // Auxiliary methods
-    private function createPersonInfo(array $data)
+    private function createPersonInfo(string $modelClass, array $data)
     {
         $data['uuid'] = Str::uuid();
 
-        return PersonalInformation::create($data);
+        return $modelClass::create($data);
     }
 
-    private function createAddress(array $data)
+    private function createAddress(string $modelClass, array $data)
     {
         $data['uuid'] = Str::uuid();
 
-        return Address::create($data);
+        return $modelClass::create($data);
     }
 
     public function updatePersonInfo(array $data, $uuid)
