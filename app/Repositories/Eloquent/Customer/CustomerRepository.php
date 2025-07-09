@@ -32,17 +32,17 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
             'customers.uuid',
             'customers.company_id',
             'customers.status',
-            'person_info.name as person_name',
-            'person_info.email as person_email',
-            'person_info.phone as person_phone',
-            'addresses.address as street',
-            'addresses.city',
-            'addresses.state',
+            'customer_personnel_information.name as person_name',
+            'customer_personnel_information.email as person_email',
+            'customer_personnel_information.phone as person_phone',
+            'customer_addresses.address as street',
+            'customer_addresses.city',
+            'customer_addresses.state',
             'customer_categories.name as category_name'
-        ])->join('person_info', 'customers.personInfo_id', '=', 'person_info.uuid')
-            ->join('addresses', 'customers.address_id', '=', 'addresses.uuid')
+        ])->join('customer_personnel_information', 'customers.personal_info_id', '=', 'customer_personnel_information.uuid')
+            ->join('customer_addresses', 'customers.address_id', '=', 'customer_addresses.uuid')
             ->join('customer_categories', 'customers.category_id', '=', 'customer_categories.id')
-            ->orderBy('person_info.name', 'asc');
+            ->orderBy('customer_personnel_information.name', 'asc');
 
         // Restrições de acordo com o papel do usuário
         if ($role != 'super') {

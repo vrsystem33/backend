@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
             'Companies\CompanyServiceInterface' => 'Companies\CompanyService',
             'Users\UserServiceInterface' => 'Users\UserService',
             'Products\ProductServiceInterface' => 'Products\ProductService',
+            'Carriers\CarrierServiceInterface' => 'Carriers\CarrierService',
         ];
 
         foreach ($services as $interface => $service) {
@@ -65,6 +66,8 @@ class AppServiceProvider extends ServiceProvider
             'Supplier\CategoryRepositoryInterface' => 'Supplier\CategoryRepository',
             'Subscription\SubscriptionRepositoryInterface' => 'Subscription\SubscriptionRepository',
             'Products\ProductRepositoryInterface' => 'Products\ProductRepository',
+            'Carrier\CarrierRepositoryInterface' => 'Carrier\CarrierRepository',
+            'Carrier\CategoryRepositoryInterface' => 'Carrier\CategoryRepository',
         ];
 
         foreach ($repositories as $interface => $repository) {
