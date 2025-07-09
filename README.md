@@ -10,7 +10,7 @@ This project provides a RESTful API built with Laravel 10 for a multi-tenant ERP
 ## Setup
 1. Clone the repository and install the dependencies:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/vrsystem33/backend.git
    cd backend
    composer install
    ```
@@ -42,7 +42,6 @@ php artisan test
 - Controllers delegate logic to Services.
 - Repositories encapsulate persistence operations.
 - Requests handle validation with friendly error messages.
-- Responses follow the JSON structure `{ success, data, message, errors }`.
 
 ## Contributing
 Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.

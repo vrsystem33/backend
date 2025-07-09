@@ -21,7 +21,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
         $params = $request->all();
         $role = $request->user()->role->name;
 
-        $query = $this->model->with(['personalInfo', 'address', 'category'])->orderBy('id', 'asc');
+        $query = $this->model::with(['personalInfo', 'address', 'category'])->orderBy('id', 'asc');
 
         if ($role != 'super') {
             $query->where('company_id', $request->user()->company_id);
@@ -49,7 +49,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
 
     public function getById($uuid)
     {
-        $carrier = $this->model->with(['personalInfo', 'address', 'category'])->findOrFail($uuid);
+        $carrier = $this->model::with(['personalInfo', 'address', 'category'])->findOrFail($uuid);
 
         $check = $this->checkData($carrier, 'Transportadora não encontrada!');
         if (is_array($check)) {
@@ -72,6 +72,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
             'secondary_phone' => $data['secondary_phone'] ?? null,
             'email' => $data['email'] ?? null,
         ];
+
         $personal = PersonalInformation::create($personalData);
 
         $addressData = [
@@ -85,6 +86,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
             'city' => $data['city'] ?? null,
             'state' => $data['state'] ?? null,
         ];
+
         $address = Address::create($addressData);
 
         $carrierData = [
@@ -97,7 +99,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
             'status' => $data['status'] ?? true,
         ];
 
-        $carrier = $this->model->create($carrierData);
+        $carrier = $this->model::create($carrierData);
 
         if (!$carrier) {
             return [
@@ -112,7 +114,7 @@ class CarrierRepository extends AbstractRepository implements CarrierRepositoryI
     public function updateCarrier(Request $request, $uuid)
     {
         $data = $request->all();
-        $carrier = $this->model->findOrFail($uuid);
+        $carrier = $this->model::findOrFail($uuid);
 
         $check = $this->checkData($carrier, 'Transportadora não encontrada!');
         if (is_array($check)) {
