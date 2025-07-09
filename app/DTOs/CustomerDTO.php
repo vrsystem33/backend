@@ -5,6 +5,7 @@ namespace App\DTOs;
 class CustomerDTO
 {
     public string $name;
+    public string $category_id;
     public ?string $last_name;
     public ?string $nickname;
     public ?string $identification;
@@ -22,6 +23,7 @@ class CustomerDTO
     public function __construct(array $data)
     {
         $this->name = $data['name'];
+        $this->category_id = $data['category_id'];
         $this->last_name = $data['last_name'] ?? null;
         $this->nickname = $data['nickname'] ?? null;
         $this->identification = $data['identification'] ?? null;
@@ -46,6 +48,7 @@ class CustomerDTO
     {
         return [
             'name'            => $this->name,
+            'category_id'     => $this->category_id,
             'last_name'       => $this->last_name,
             'nickname'        => $this->nickname,
             'identification'  => $this->identification,
