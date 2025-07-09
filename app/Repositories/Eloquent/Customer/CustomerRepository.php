@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquent\Customer;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 use App\Repositories\Contracts\Customer\CustomerRepositoryInterface;
@@ -21,10 +20,9 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
      */
     protected $model = Customer::class;
 
-    public function index(Request $request)
+    public function getAll(array $params)
     {
-        $params = $request->all();
-        $role = $request->user()->role->name;
+        $role = $params['role'] ?? null;
 
         $query = $this->model->query();
 
@@ -45,8 +43,8 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
             ->orderBy('person_info.name', 'asc');
 
         // Restrições de acordo com o papel do usuário
-        if ($role != 'super') {
-            $query->where('customers.company_id', $request->user()->company_id);
+        if ($role !== 'super' && isset($params['company_id'])) {
+            $query->where('customers.company_id', $params['company_id']);
         }
 
         // Filtro pelo termo de pesquisa
@@ -68,12 +66,10 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
 
         // Paginação ou listagem
         if (isset($params['per_page'])) {
-            $result = $query->paginate($params['per_page']);
-        } else {
-            $result = $query->get();
+            return $query->paginate($params['per_page']);
         }
 
-        return $result;
+        return $query->get();
     }
 
     public function getById($uuid)
@@ -94,15 +90,13 @@ class CustomerRepository extends AbstractRepository implements CustomerRepositor
         return $data;
     }
 
-    public function create(array $request)
+    public function create(array $data)
     {
-        return $this->createInfo($request, 'customer');
+        return $this->createInfo($data, 'customer');
     }
 
-    public function updateCustomer(Request $request, $uuid)
+    public function update(array $data, $uuid)
     {
-        $data = $request->all();
-
         $customer = $this->model->findOrFail($uuid);
 
         $check = $this->checkData($customer, 'Cliente não encontrado!');
