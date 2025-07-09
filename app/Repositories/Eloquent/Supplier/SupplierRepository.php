@@ -31,20 +31,20 @@ class SupplierRepository extends AbstractRepository implements SupplierRepositor
         $query = $this->model->query();
 
         $query->select([
-            'customers.uuid',
-            'customers.company_id',
-            'customers.status',
-            'person_info.name as person_name',
-            'person_info.email as person_email',
-            'person_info.phone as person_phone',
-            'addresses.address as street',
-            'addresses.city',
-            'addresses.state',
-            'customer_categories.name as category_name'
-        ])->join('person_info', 'customers.personInfo_id', '=', 'person_info.uuid')
-            ->join('addresses', 'customers.address_id', '=', 'addresses.uuid')
-            ->join('customer_categories', 'customers.category_id', '=', 'customer_categories.id')
-            ->orderBy('person_info.name', 'asc');
+            'suppliers.uuid',
+            'suppliers.company_id',
+            'suppliers.status',
+            'supplier_personnel_information.name as person_name',
+            'supplier_personnel_information.email as person_email',
+            'supplier_personnel_information.phone as person_phone',
+            'supplier_addresses.address as street',
+            'supplier_addresses.city',
+            'supplier_addresses.state',
+            'supplier_categories.name as category_name'
+        ])->leftJoin('supplier_personnel_information', 'suppliers.personal_info_id', '=', 'supplier_personnel_information.uuid')
+          ->leftJoin('supplier_addresses', 'suppliers.address_id', '=', 'supplier_addresses.uuid')
+          ->leftJoin('supplier_categories', 'suppliers.category_id', '=', 'supplier_categories.id')
+          ->orderBy('supplier_personnel_information.name', 'asc');
 
         // Restrições de acordo com o papel do usuário
         if ($role != 'super') {
@@ -94,9 +94,9 @@ class SupplierRepository extends AbstractRepository implements SupplierRepositor
         return $data;
     }
 
-    public function create(Request $request)
+    public function create(array $data)
     {
-        return $this->createInfo($request, 'supplier');
+        return $this->createInfo($data, \App\Models\Suppliers\PersonalInformation::class, \App\Models\Suppliers\Address::class);
     }
 
     public function updateSupplier(Request $request, $uuid)

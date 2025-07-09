@@ -5,21 +5,24 @@ namespace App\Http\Controllers\Customer;
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\Customer\CustomerRepositoryInterface;
+use App\Services\Customer\CustomerService;
+use App\DTOs\CustomerDTO;
+use App\Http\Requests\Customer\CreateCustomerRequest;
+use App\Http\Requests\Customer\UpdateCustomerRequest;
 
 class CustomerController extends Controller
 {
-    protected $customerRepositoy;
+    protected CustomerService $customerService;
 
-    function __construct(CustomerRepositoryInterface $customerRepositoy)
+    public function __construct(CustomerService $customerService)
     {
-        $this->customerRepositoy = $customerRepositoy;
+        $this->customerService = $customerService;
     }
 
     public function listing(Request $request)
     {
         try {
-            $response = $this->customerRepositoy->index($request);
+            $response = $this->customerService->getAll($request);
 
             return $this->handleResponse($response);
         } catch (Throwable $e) {
@@ -30,7 +33,7 @@ class CustomerController extends Controller
     public function getById($uuid)
     {
         try {
-            $response = $this->customerRepositoy->getById($uuid);
+            $response = $this->customerService->getById($uuid);
 
             return $this->handleResponse($response);
         } catch (Throwable $e) {
@@ -38,10 +41,11 @@ class CustomerController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function create(CreateCustomerRequest $request)
     {
         try {
-            $response = $this->customerRepositoy->create($request);
+            $dto = CustomerDTO::fromArray($request->validated());
+            $response = $this->customerService->create($dto, $request);
 
             return $this->handleResponse($response, 'create');
         } catch (Throwable $e) {
@@ -49,10 +53,11 @@ class CustomerController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateCustomerRequest $request, $id)
     {
         try {
-            $response = $this->customerRepositoy->updateCustomer($request, $id);
+            $dto = CustomerDTO::fromArray($request->validated());
+            $response = $this->customerService->update($dto, $id);
 
             return $this->handleResponse($response);
         } catch (Throwable $e) {
@@ -64,11 +69,10 @@ class CustomerController extends Controller
     public function delete($uuid)
     {
         try {
-            $response = $this->customerRepositoy->delete($uuid);
+            $response = $this->customerService->delete($uuid);
 
             return $this->handleResponse($response, 'delete');
         } catch (Throwable $e) {
             return $this->handleException($e);
         }
-    }
-}
+    }}

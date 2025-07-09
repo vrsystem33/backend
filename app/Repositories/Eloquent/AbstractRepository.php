@@ -80,11 +80,11 @@ abstract class AbstractRepository
         return $this->model->create($dados);
     }
 
-    public function createInfo(array $data)
+    public function createInfo(array $data, string $personModelClass, string $addressModelClass,)
     {
         $data['uuid'] = Str::uuid();
 
-        $dataPersonAddress = $this->relationshipService->createPersoninfoAndAddress($data);
+        $dataPersonAddress = $this->relationshipService->createPersoninfoAndAddress($data, $personModelClass, $addressModelClass);
 
         $data['personal_info_id'] = $dataPersonAddress['personal_info_id'];
         $data['address_id'] = $dataPersonAddress['address_id'];

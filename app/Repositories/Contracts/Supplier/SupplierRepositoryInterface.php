@@ -11,7 +11,7 @@ interface SupplierRepositoryInterface extends CrudRepositoryInterface
 
     public function getById($id);
 
-    public function create(Request $request);
+    public function create(array $data);
 
     public function updateSupplier(Request $request, $id);
 }

@@ -40,10 +40,10 @@ class CompanyRepository extends AbstractRepository implements CompanyRepositoryI
             'company_addresses.city',
             'company_addresses.state',
             'company_galleries.name as photo_name'
-        ])->join('company_personnel_information', 'companies.personal_info_id', '=', 'company_personnel_information.uuid')
-            ->join('company_addresses', 'companies.address_id', '=', 'company_addresses.uuid')
-            ->join('company_galleries', 'companies.gallery_id', '=', 'company_galleries.uuid')
-            ->orderBy('company_personnel_information.name', 'asc');
+        ])->leftJoin('company_personnel_information', 'companies.personal_info_id', '=', 'company_personnel_information.uuid')
+          ->leftJoin('company_addresses', 'companies.address_id', '=', 'company_addresses.uuid')
+          ->leftJoin('company_galleries', 'companies.gallery_id', '=', 'company_galleries.uuid')
+          ->orderBy('company_personnel_information.name', 'asc');
 
         // Filtro pelo termo de pesquisa
         if (isset($params['term']) && !empty($params['term'])) {
@@ -94,7 +94,7 @@ class CompanyRepository extends AbstractRepository implements CompanyRepositoryI
     {
         $data['gallery_id'] = $this->createGallery($data['gallery'])->uuid;
 
-        return $this->createInfo($data);
+        return $this->createInfo($data, \App\Models\Companies\PersonalInformation::class, \App\Models\Companies\Address::class);
     }
 
     public function updateCompany(array $data, $company)

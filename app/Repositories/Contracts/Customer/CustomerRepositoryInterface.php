@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 interface CustomerRepositoryInterface extends CrudRepositoryInterface
 {
-    public function index(Request $request);
+    public function index(array $request);
 
-    public function getById($id);
+    public function getById(string $uuid);
 
     public function create(array $request);
 
-    public function updateCustomer(Request $request, $id);
+    public function updateCustomer(array $data, string $uuid);
 }
