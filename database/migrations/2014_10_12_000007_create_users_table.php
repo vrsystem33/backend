@@ -27,10 +27,13 @@ return new class extends Migration
 
             $table->boolean('status')->default(true);
             $table->boolean('master')->default(true);
+            $table->boolean('is_owner')->default(false);
 
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

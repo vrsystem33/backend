@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'paid', 'overdue'])->default('pending'); // Status da conta
             $table->text('description')->nullable(); // Descrição da conta
             $table->timestamps(); // Campos created_at e updated_at
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');

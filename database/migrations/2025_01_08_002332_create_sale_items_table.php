@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('discount', 15, 2)->default(0);
             $table->decimal('total_price', 15, 2);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('sale_id')->references('uuid')->on('sales')->onUpdate('cascade')->onDelete('set null');

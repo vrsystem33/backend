@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('sale_price', 10, 2); // Preço de venda do produto
             $table->decimal('margin', 5, 2); // Margem de lucro
             $table->timestamps();
+            $table->softDeletes();
 
             // Chave estrangeira
             $table->foreign('product_id')->references('uuid')->on('products')->onDelete('cascade');

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('carriers', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
+            $table->string('name');
+            $table->string('email')->nullable();
             $table->uuid('company_id')->nullable();
             $table->uuid('personal_info_id')->nullable();
             $table->uuid('address_id')->nullable();
@@ -21,6 +23,7 @@ return new class extends Migration
             $table->text('contact_info')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

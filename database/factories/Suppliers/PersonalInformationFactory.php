@@ -29,13 +29,11 @@ class PersonalInformationFactory extends Factory
     {
         return [
             'uuid' => Str::uuid(),
-            'name' => $this->faker->name(),
             'last_name' => $this->faker->lastName(),
             'nickname' => $this->faker->userName(),
             'identification' => $this->faker->unique()->numberBetween(100000000, 999999999),
             'phone' => substr($this->faker->phoneNumber(), 0, 11),
             'secondary_phone' => substr($this->faker->phoneNumber(), 0, 11),
-            'email' => $this->faker->unique()->safeEmail(),
             'status' => $this->faker->boolean(true)
         ];
     }

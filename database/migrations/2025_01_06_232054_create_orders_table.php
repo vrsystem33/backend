@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2); // Salary with precision and scale
             $table->text('notes'); // Nome do armazém
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

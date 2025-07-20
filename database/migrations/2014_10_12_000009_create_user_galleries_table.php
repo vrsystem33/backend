@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('extension');
 
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

@@ -32,6 +32,8 @@ class CustomerFactory extends Factory
         return [
             'uuid' => Str::uuid(),
             'company_id' => null,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'personal_info_id' => null,
             'address_id' => null,
             'category_id' => null,

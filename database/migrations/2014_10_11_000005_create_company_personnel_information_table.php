@@ -15,18 +15,17 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
 
-            $table->string('name');
             $table->string('nickname')->nullable();
             $table->string('corporate_name')->nullable();
             $table->string('trade_name')->nullable();
             $table->string('identification', 20)->nullable();
-            $table->string('phone', 11)->nullable();
-            $table->string('secondary_phone', 11)->nullable();
-            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('secondary_phone')->nullable();
 
             $table->boolean('status')->default(true);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

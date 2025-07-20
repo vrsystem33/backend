@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2)->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');

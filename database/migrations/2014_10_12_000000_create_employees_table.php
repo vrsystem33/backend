@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique(); // Chave primária UUID
+            $table->string('name');
+            $table->string('email')->nullable();
             $table->uuid('company_id')->nullable(); // Foreign key for companies
             $table->uuid('personal_info_id')->nullable(); // Nullable foreign key
             $table->uuid('address_id')->nullable(); // Nullable foreign key
@@ -23,6 +25,7 @@ return new class extends Migration
             $table->decimal('salary', 10, 2); // Salary with precision and scale
             $table->boolean('status')->default(true); // Active/Inactive status
             $table->timestamps(); // created_at and updated_at
+            $table->softDeletes();
         });
     }
 

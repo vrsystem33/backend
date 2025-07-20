@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('status', ['open', 'closed', 'cancelled'])->default('open');
             $table->text('notes')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('customer_id')->references('uuid')->on('customers')->onUpdate('cascade')->onDelete('set null');

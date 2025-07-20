@@ -38,10 +38,20 @@ class CompanyFactory extends Factory
 
         return [
             'uuid' => Str::uuid(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'address_id' => $address->uuid,
             'personal_info_id' => $personalInfo->uuid,
             'gallery_id' => $gallery->uuid,
             'category_id' =>  $category->id,
+            'settings' => [
+                'currency' => 'BRL',
+                'timezone' => 'America/Sao_Paulo',
+                'language' => 'pt-BR',
+                'max_users' => 5,
+                'max_products' => 100,
+                'max_sales' => 1000,
+            ],
             'business_model' => $this->faker->randomNumber(1),
             'status' => 1,
             'state_registration' => $this->faker->stateAbbr(),

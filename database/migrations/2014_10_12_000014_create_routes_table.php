@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('scopes'); // Escopos de acesso
             $table->boolean('status')->default(true); // Se rota está ativa, Padrão TRUE
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

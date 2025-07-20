@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('end_time'); // Shift end time
             $table->boolean('status')->default(true); // Active/Inactive status
             $table->timestamps(); // created_at and updated_at
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

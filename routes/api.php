@@ -19,6 +19,8 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\Supplier\SupplierController;
 use App\Http\Controllers\Supplier\CategoryController as SupplierCategoryController;
+use App\Http\Controllers\Carrier\CarrierController;
+use App\Http\Controllers\Carrier\CategoryController as CarrierCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -210,19 +212,20 @@ Route::group(['prefix' => '/v1'], function () {
 
     Route::group(['prefix' => 'carriers'], function () {
         Route::group(['prefix' => 'categories'], function () {
-            Route::get('', [\App\Http\Controllers\Carrier\CategoryController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-            Route::get('{id}', [\App\Http\Controllers\Carrier\CategoryController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-            Route::post('', [\App\Http\Controllers\Carrier\CategoryController::class, 'create'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-            Route::put('{id}', [\App\Http\Controllers\Carrier\CategoryController::class, 'update'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-            Route::delete('{id}', [\App\Http\Controllers\Carrier\CategoryController::class, 'delete'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::get('', [CarrierCategoryController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::get('{id}', [CarrierCategoryController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::post('', [CarrierCategoryController::class, 'create'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::put('{id}', [CarrierCategoryController::class, 'update'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::delete('{id}', [CarrierCategoryController::class, 'delete'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
         });
 
-        Route::get('', [\App\Http\Controllers\Carrier\CarrierController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-        Route::get('{id}', [\App\Http\Controllers\Carrier\CarrierController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-        Route::post('', [\App\Http\Controllers\Carrier\CarrierController::class, 'create'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-        Route::put('{id}', [\App\Http\Controllers\Carrier\CarrierController::class, 'update'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
-        Route::delete('{id}', [\App\Http\Controllers\Carrier\CarrierController::class, 'delete'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        Route::get('', [CarrierController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        Route::get('{id}', [CarrierController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        Route::post('', [CarrierController::class, 'create'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        Route::put('{id}', [CarrierController::class, 'update'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        Route::delete('{id}', [CarrierController::class, 'delete'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
     });
+
     Route::group(['prefix' => 'products'], function () {
 
         Route::get('', [ProductController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin,employee', 'check.plan:basic,plus,premium']);

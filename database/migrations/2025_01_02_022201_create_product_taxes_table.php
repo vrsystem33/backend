@@ -28,6 +28,7 @@ return new class extends Migration
             $table->boolean('withheld_iss')->default(false); // ISS retido
             $table->decimal('iss_rate', 5, 2); // Taxa de ISS
             $table->timestamps();
+            $table->softDeletes();
 
             // Chave estrangeira
             $table->foreign('product_id')->references('uuid')->on('products')->onDelete('cascade');

@@ -17,11 +17,16 @@ class Company extends BaseModel
     // Fields that can be mass-assigned
     protected $fillable = [
         'uuid',
+        'name',
+        'email',
+        'phone',
         'personal_info_id',
         'address_id',
         'gallery_id',
         'category_id',
+        'subscription_id',
         'business_model',
+        'settings',
         'status',
         'state_registration'
     ];
@@ -30,6 +35,7 @@ class Company extends BaseModel
     protected $casts = [
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',
+        'settings'   => 'array',
     ];
 
     // Relationships

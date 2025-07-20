@@ -16,17 +16,16 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->uuid('company_id')->nullable();
 
-            $table->string('name');
             $table->string('last_name')->nullable();
             $table->string('nickname')->nullable();
             $table->string('identification', 20)->nullable();
-            $table->string('phone', 11)->nullable();
-            $table->string('secondary_phone', 11)->nullable();
-            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('secondary_phone')->nullable();
 
             $table->boolean('status')->default(true);
 
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

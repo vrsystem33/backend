@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('url')->nullable(); // URL da imagem
             $table->boolean('is_main')->default(false); // Indica se a imagem é a principal
             $table->timestamps();
+            $table->softDeletes();
 
             // Chave estrangeira
             $table->foreign('product_id')->references('uuid')->on('products')->onUpdate('cascade')->onDelete('cascade');

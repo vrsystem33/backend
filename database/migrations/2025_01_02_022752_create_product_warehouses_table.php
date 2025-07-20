@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('stock_quantity'); // Quantidade de produto no armazém
             $table->integer('minimum_stock')->default(0); // Quantidade mínima do produto no armazém
             $table->timestamps();
+            $table->softDeletes();
 
             // Chaves estrangeiras
             $table->foreign('product_id')->references('uuid')->on('products')->onDelete('cascade');

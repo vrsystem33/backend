@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('unit_price', 10, 2); // Unit price of the product
             $table->decimal('total_price', 10, 2); // Total price (quantity * unit_price)
             $table->timestamps(); // created_at and updated_at
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

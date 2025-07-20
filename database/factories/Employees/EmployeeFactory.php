@@ -34,6 +34,8 @@ class EmployeeFactory extends Factory
         return [
             'uuid' => Str::uuid(),
             'company_id' => Company::factory(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'personal_info_id' => null,
             'address_id' => null,
             'schedule_id' => null,

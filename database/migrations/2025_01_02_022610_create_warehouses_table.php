@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable(); // Descrição do armazém
             $table->enum('status', ['active', 'inactive'])->default('active'); // Status
             $table->timestamps();
+            $table->softDeletes();
 
             // Chave estrangeira
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('cascade');

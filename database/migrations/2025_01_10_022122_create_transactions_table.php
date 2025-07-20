@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable(); // Descrição da transação
             $table->timestamp('transaction_date'); // Data da transação
             $table->timestamps();
+            $table->softDeletes();
 
             // Chaves estrangeiras
             $table->foreign('company_id')->references('uuid')->on('companies')->cascadeOnUpdate()->cascadeOnDelete();

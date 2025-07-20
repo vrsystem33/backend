@@ -23,10 +23,11 @@ class Subscription extends BaseModel
     protected $fillable = [
         'uuid',
         'company_id',
+        'plan_id',
         'plan',
         'status', // ['active', 'inactive', 'canceled']
-        'start_date',
-        'end_date',
+        'starts_at',
+        'ends_at',
     ];
 
     /**
@@ -35,13 +36,13 @@ class Subscription extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
-        'start_date' => 'datetime:d-m-Y H:i:s',
-        'end_date' => 'datetime:d-m-Y H:i:s',
+        'starts_at' => 'datetime:d-m-Y H:i:s',
+        'ends_at' => 'datetime:d-m-Y H:i:s',
         'created_at' => 'datetime:d-m-Y H:i:s',
         'updated_at' => 'datetime:d-m-Y H:i:s',
     ];
 
-    protected $dates = ['start_date', 'end_date'];
+    protected $dates = ['starts_at', 'ends_at'];
 
     protected static function boot()
     {
@@ -49,8 +50,8 @@ class Subscription extends BaseModel
 
         // Adiciona os valores padrão ao criar
         static::creating(function ($subscription) {
-            $subscription->start_date = now(); // Data e hora atuais
-            $subscription->end_date = now()->addDays(30)->endOfDay(); // vencimento em 30 dias e 23:59:59
+            $subscription->starts_at = now(); // Data e hora atuais
+            $subscription->ends_at = now()->addDays(30)->endOfDay(); // vencimento em 30 dias e 23:59:59
         });
     }
 
@@ -59,7 +60,7 @@ class Subscription extends BaseModel
      */
     public function isExpired(): bool
     {
-        return $this->end_date && $this->end_date->isPast();
+        return $this->ends_at && $this->ends_at->isPast();
     }
 
     /**
@@ -68,8 +69,8 @@ class Subscription extends BaseModel
     public function renew(): void
     {
         $this->update([
-            'start_date' => Carbon::now(),
-            'end_date' => Carbon::now()->addDays(30)->endOfDay(),
+            'starts_at' => Carbon::now(),
+            'ends_at' => Carbon::now()->addDays(30)->endOfDay(),
             'status' => 'active',
         ]);
 

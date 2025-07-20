@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('customer_personnel_information', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
             $table->uuid('company_id')->nullable();
 
-            $table->string('plan');
+            $table->string('last_name')->nullable();
+            $table->string('nickname')->nullable();
+            $table->string('identification', 20)->nullable();
+            $table->string('phone')->nullable();
+            $table->string('secondary_phone')->nullable();
 
-            $table->enum('status', ['active', 'inactive', 'canceled'])->default('active');
+            $table->boolean('status')->default(true);
 
-            $table->timestamp('start_date')->nullable(); // Data de início da mensalidade
-            $table->timestamp('end_date')->nullable(); // Data de expiração da mensalidade
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('customer_personnel_information');
     }
 };

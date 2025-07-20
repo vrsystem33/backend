@@ -25,6 +25,7 @@ class Product extends BaseModel
         'reference',         // Referência interna ou do fornecedor
         'unit',              // Unidade de medida (ex: kg, unidade)
         'status',            // Status do produto (ativo, inativo)
+        'type',              // Tipo do produto (Serviço, Produto)
     ];
 
     // Casting attributes to specific data types
@@ -68,5 +69,15 @@ class Product extends BaseModel
     public function movements()
     {
         return $this->hasMany(ProductMovement::class, 'product_id', 'uuid');
+    }
+
+    public function isService(): bool
+    {
+        return $this->type === 'service';
+    }
+
+    public function isProduct(): bool
+    {
+        return $this->type === 'product';
     }
 }

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('duration')->comment('Duration in minutes'); // Duration in minutes
             $table->boolean('status')->default(true);
             $table->timestamps(); // created_at and updated_at
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');

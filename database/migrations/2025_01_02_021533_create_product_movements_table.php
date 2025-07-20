@@ -23,6 +23,7 @@ return new class extends Migration
             $table->uuid('note_id')->nullable(); // Relacionamento com a nota fiscal (opcional)
             $table->string('note_number')->nullable(); // Número da nota fiscal
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

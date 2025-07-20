@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');

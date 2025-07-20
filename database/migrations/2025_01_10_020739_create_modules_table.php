@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique(); // Identificador único amigável (slug)
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             // Defining relationships
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');

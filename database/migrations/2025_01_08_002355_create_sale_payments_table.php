@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2);
             $table->enum('status', ['pending', 'approved', 'failed'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('company_id')->references('uuid')->on('companies')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('sale_id')->references('uuid')->on('sales')->onUpdate('cascade')->onDelete('set null');

@@ -11,26 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_permissions', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->uuid('company_id')->nullable();
-
-            $table->string('description');
             $table->string('name');
-
-            $table->boolean('create')->default(true);
-            $table->boolean('update')->default(true);
-            $table->boolean('delete')->default(true);
-            $table->boolean('view')->default(true);
-
+            $table->string('slug')->unique();
+            $table->string('currency')->default('BRL');
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->integer('max_users');
+            $table->integer('max_products');
+            $table->integer('max_sales');
             $table->boolean('status')->default(true);
-
             $table->timestamps();
             $table->softDeletes();
-
-            // Defining relationships
-            $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('set null');
         });
     }
 
@@ -39,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_permissions');
+        Schema::dropIfExists('plans');
     }
 };

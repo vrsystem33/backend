@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable(); // Descrição da categoria
             $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             // Chaves estrangeiras
             $table->foreign('company_id')->references('uuid')->on('companies')->onDelete('cascade');
