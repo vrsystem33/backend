@@ -66,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
             'Supplier\CategoryRepositoryInterface' => 'Supplier\CategoryRepository',
             'Subscription\SubscriptionRepositoryInterface' => 'Subscription\SubscriptionRepository',
             'Products\ProductRepositoryInterface' => 'Products\ProductRepository',
+            'Products\CategoryRepositoryInterface' => 'Products\CategoryRepository',
             'Carrier\CarrierRepositoryInterface' => 'Carrier\CarrierRepository',
             'Carrier\CategoryRepositoryInterface' => 'Carrier\CategoryRepository',
         ];

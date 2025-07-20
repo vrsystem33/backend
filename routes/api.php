@@ -16,6 +16,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Customer\CategoryController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\CategoryController as ProductCategoryController;
 use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\Supplier\SupplierController;
 use App\Http\Controllers\Supplier\CategoryController as SupplierCategoryController;
@@ -227,6 +228,13 @@ Route::group(['prefix' => '/v1'], function () {
     });
 
     Route::group(['prefix' => 'products'], function () {
+        Route::group(['prefix' => 'categories'], function () {
+            Route::get('', [ProductCategoryController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::get('{id}', [ProductCategoryController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::post('', [ProductCategoryController::class, 'create'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::put('{id}', [ProductCategoryController::class, 'update'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+            Route::delete('{id}', [ProductCategoryController::class, 'delete'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin', 'check.plan:basic,plus,premium']);
+        });
 
         Route::get('', [ProductController::class, 'listing'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin,employee', 'check.plan:basic,plus,premium']);
         Route::get('{id}', [ProductController::class, 'getById'])->middleware(['auth:api', 'check.subscription', 'check.scopes:super,admin,employee', 'check.plan:basic,plus,premium']);
